@@ -1,5 +1,6 @@
 {
   "owner":"c4lolstat",
   "repo":"doomcalc",
-  "targetDir":"test/"
+  "targetDir":"test/",
+  "token":"2a6365a5a54c7a6734d521dcc6bd67a7ad4988c3"
 }

@@ -11,6 +11,7 @@ var commits = '';
 var mainTree = '/';
 var blob = '';
 var targetDir = '';
+var token='';
 
 var patch = function () {
     var config = fs.readFileSync('config.json', 'utf8', function (err, data) {
@@ -24,6 +25,7 @@ var patch = function () {
     owner = configObj.owner;
     repo = configObj.repo;
     targetDir = configObj.targetDir;
+    token=configObj.token;
     commits = '/repos/' + owner + '/' + repo + '/commits';
     mainTree = '/repos/' + owner + '/' + repo + '/git/trees/';
     blob = '/repos/' + owner + '/' + repo + '/git/blobs/';
@@ -37,7 +39,7 @@ function urlWrapper(url) {
         path: url,
         method: 'GET',
         headers: {
-            Authorization: 'token 7b819bee4cde568f80b2e616c09143e6bb7c5b7d',
+            Authorization: 'token '+token,
             'User-Agent': owner,
             'Accept': 'application/vnd.github.v3+json'
         }
@@ -53,7 +55,7 @@ function update() {
             commit += chunk;
         });
         rs.on('error', function (e) {
-            console.error(e);
+            console.log(e);
         });
         rs.on('end', function () {
             var commitObj = JSON.parse(commit);
@@ -95,7 +97,7 @@ function getTree(sha, path) {
             tree += chunk;
         });
         rs.on('error', function (e) {
-            console.error(e);
+            console.log(e);
         });
         rs.on('end', function () {
             var treeObj = JSON.parse(tree).tree;
@@ -109,7 +111,7 @@ function getTree(sha, path) {
                                 genresponse += chunk;
                             });
                             rs.on('error', function (e) {
-                                console.error(e);
+                                console.log(e);
                             });
                             rs.on('end', function () {
                                 var blobObj = JSON.parse(genresponse);
